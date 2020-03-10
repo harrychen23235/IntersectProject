@@ -40,13 +40,13 @@ public:double mx, my, mr;
           mr = input3;
 
       }
-      static bool C2DisJudge(Circle* input1, Circle* input2) {
+      static bool C2DisJudge(Circle* input1, Circle* input2) {//圆和圆是否相交
           double distance = (input1->mx - input2->mx) * (input1->mx - input2->mx) + (input1->my - input2->my) * (input1->my - input2->my);
           double radium1 = (input1->mr + input2->mr) * (input1->mr + input2->mr);
           double radium2 = (input1->mr - input2->mr) * (input1->mr - input2->mr);
           return distance - EPS < radium1&&distance+EPS>radium2;
       }
-      static bool CLDisJudge(Circle* input1, Line* input2) {
+      static bool CLDisJudge(Circle* input1, Line* input2) {//圆和线是否相交
           double A=0, B=0, C=0;
           if (input2->mspecial == 1) {
               A = 1;
@@ -64,7 +64,7 @@ public:double mx, my, mr;
 
       }
 };
-class ShapeFactory {
+class ShapeFactory {//工厂模式处理
 public:static Shape* GetShape(string type) {
     if (type == "L") {
         double temp1, temp2, temp3, temp4;
@@ -113,16 +113,18 @@ public:double x, y;
 };
 
 struct Hash_Point {
-    size_t operator()(const class Point& input1)const {
+    size_t operator()(const class Point* input1)const {
         //return (int)(((int)input1.x) * 1e6 / 10 + ((int)input1.y) * 1e6 / 10);
-        return (long)(input1.x + input1.y);
+        long temp1 = (long)input1->x;
+        long temp2 = (long)input1->y;
+        return (temp1 + temp2) * 13 + (temp1 * 1000 % 1000 + temp2 * 1000 % 1000);
     }
 };
 
 struct Equal_Point {
-    bool operator()(const class Point& input1, const class Point& input2)const {
-       // return abs(input1.x - input2.x) <= EPS && abs(input1.y - input2.y) <= EPS;
-        return input1.x == input2.x && input1.y == input2.y;
+    bool operator()(const class Point* input1, const class Point* input2)const {
+        return abs(input1->x - input2->x) <= EPS && abs(input1->y - input2->y) <= EPS;
+        //return input1.x == input2.x && input1.y == input2.y;
     }
 };
 

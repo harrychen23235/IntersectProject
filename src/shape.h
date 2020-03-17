@@ -115,8 +115,11 @@ public:double x, y;
 struct Hash_Point {
     size_t operator()(const class Point* input1)const {
         //return (int)(((int)input1.x) * 1e6 / 10 + ((int)input1.y) * 1e6 / 10);
-        long temp1 = (long)input1->x;
-        long temp2 = (long)input1->y;
+
+        long temp1 = floor(input1->x);
+        long temp2 = floor(input1->y);
+        if (abs(input1->x - (temp1+1)) <= EPS) temp1++;
+        if (abs(input1->y- (temp2+1)) <= EPS) temp2++;
         return (temp1 + temp2) * 13 + (temp1 * 1000 % 1000 + temp2 * 1000 % 1000);
     }
 };
